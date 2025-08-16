@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun!</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Dancing Script -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Menggunakan font Inter sebagai default */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Mencegah scroll karena animasi */
+        }
+        
+        /* Menggunakan font "Dancing Script" sebagai font bersambung */
+        .font-cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Efek utama "Liquid Glass" atau Glassmorphism */
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- START: Latar Belakang Animasi --- */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #87CEEB, #a3d8f0);
+            overflow: hidden;
+        }
+
+        .sun {
+            position: absolute;
+            top: 5%;
+            right: 10%;
+            width: 120px;
+            height: 120px;
+            background: #ffe555;
+            border-radius: 50%;
+            box-shadow: 0 0 40px #ffe555, 0 0 80px #ffe555;
+        }
+
+        .cloud {
+            position: absolute;
+            left: 0;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            filter: blur(5px);
+            animation: move-clouds linear infinite;
+        }
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+        .cloud-1 { width: 200px; height: 60px; top: 10%; animation-duration: 20s; }
+        .cloud-1::before { width: 100px; height: 100px; top: -50px; left: 20px; }
+        .cloud-1::after { width: 120px; height: 80px; top: -30px; right: 30px; }
+        .cloud-2 { width: 300px; height: 80px; top: 25%; animation-duration: 25s; animation-delay: -5s; }
+        .cloud-2::before { width: 150px; height: 120px; top: -60px; left: 30px; }
+        .cloud-2::after { width: 180px; height: 100px; top: -40px; right: 50px; }
+        .cloud-3 { width: 150px; height: 50px; top: 40%; animation-duration: 18s; animation-delay: -10s; }
+        .cloud-3::before { width: 80px; height: 80px; top: -40px; left: 15px; }
+        .cloud-3::after { width: 100px; height: 60px; top: -25px; right: 20px; }
+
+        @keyframes move-clouds {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100vw); }
+        }
+        
+        .water { position: absolute; bottom: 0; width: 100%; height: 20%; }
+        .waves { position: absolute; bottom: 0; width: 100%; height: 15vh; min-height: 100px; max-height: 150px; }
+        .parallax > use { animation: move-wave 25s cubic-bezier(.55,.5,.45,.5) infinite; }
+        .parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s; }
+        .parallax > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; }
+        .parallax > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; }
+        .parallax > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; }
+        @keyframes move-wave {
+            0% { transform: translate3d(-90px,0,0); }
+            100% { transform: translate3d(85px,0,0); }
+        }
+        /* --- END: Latar Belakang Animasi --- */
+
+        #main-content { display: none; animation: fadeIn 1.5s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        #landing-page { transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+        .fade-out { opacity: 0; transform: scale(0.9); pointer-events: none; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center text-white p-4">
+
+    <div class="animated-background">
+        <div class="sky">
+            <div class="sun"></div>
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+        </div>
+        <div class="water">
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <main class="relative z-10 w-full max-w-2xl mx-auto">
+        <section id="landing-page" class="text-center">
+            <div class="glassmorphism rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl">
+                <h1 class="font-cursive text-5xl sm:text-6xl md:text-8xl mb-4">Sebuah Pesan Untukmu</h1>
+                <p class="text-base sm:text-lg md:text-xl mb-8 opacity-80">Ada sesuatu yang spesial menantimu...</p>
+                <button id="open-button" class="font-cursive bg-blue-400 text-white text-2xl sm:text-3xl py-1 px-6 rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300">
+                    Buka Sekarang
+                </button>
+            </div>
+        </section>
+
+        <section id="main-content">
+            <div class="glassmorphism rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl text-center">
+                <img src="nabilaku.jpg" 
+                     alt="Foto Ulang Tahun" 
+                     class="w-32 h-32 sm:w-36 sm:h-36 rounded-full border-4 border-white shadow-lg mx-auto mb-4 object-cover"
+                     onerror="this.onerror=null;this.src='https://placehold.co/150x150/cccccc/ffffff?text=Error';">
+                
+                <h2 class="font-cursive text-5xl sm:text-6xl md:text-7xl mb-2">Selamat Ulang Tahun!</h2>
+                
+                <p class="text-xl sm:text-2xl font-bold text-blue-400 mb-6">untuk nabilaku❤️</p>
+                
+                <p class="italic text-base sm:text-lg leading-relaxed opacity-90">
+                    "Bertumbuh dan hiduplah dengan keberkahan dan kebaikan. Hiduplah sederhana lagi bersyukur, bersabarlah lagi tersenyum, bergembiralah lagi bersedekah."
+                    - SVKTXFVNK
+                </p>
+
+                <!-- Tombol YouTube ditambahkan di sini -->
+                <div class="mt-8">
+                    <a href="https://www.youtube.com/watch?v=_dqBU70pPdY" target="_blank" rel="noopener noreferrer" class="font-cursive inline-block bg-red-600 text-white text-3xl py-1 px-8 rounded-full shadow-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-300">
+                        Buka Hadiah Spesial
+                    </a>
+                </div>
+                
+                <div class="mt-4 text-4xl flex justify-center gap-4">
+                    <span>🎉</span>
+                    <span>🎂</span>
+                    <span>🎁</span>
+                    <span>🎈</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const landingPage = document.getElementById('landing-page');
+        const mainContent = document.getElementById('main-content');
+        const openButton = document.getElementById('open-button');
+
+        // Fungsi animasi konfeti
+        function launchConfetti() {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+            const interval = setInterval(() => {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                const particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // Event listener utama
+        openButton.addEventListener('click', () => {
+            landingPage.classList.add('fade-out');
+            landingPage.addEventListener('transitionend', () => {
+                landingPage.style.display = 'none';
+                mainContent.style.display = 'block';
+                launchConfetti();
+            }, { once: true });
+        });
+    </script>
+
+</body>
+</html>
